@@ -76,5 +76,5 @@ code {
 
 #root {
   background-color: var(--background);
-  padding: 2rem;
+  /* padding: 2rem; */
 }

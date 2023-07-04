@@ -76,10 +76,23 @@ export default function Page(props) {
   }
 
   return (
+    <>
+    <nav style={{
+      display: 'flex',
+      backgroundColor: 'var(--foreground)',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: '100vw',
+      paddingTop: '0.5rem',
+      paddingBottom: '0.5rem',
+    }}>
+      fediexplorer
+    </nav>
     <main
       style={{
         backgroundColor: "var(--foreground)",
         padding: "1rem",
+        margin: "2rem",
         borderRadius: "1rem",
       }}
     >
@@ -221,5 +234,6 @@ export default function Page(props) {
       </div>
       <div></div>
     </main>
+    </>
   );
 }
