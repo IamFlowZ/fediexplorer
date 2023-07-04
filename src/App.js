@@ -86,6 +86,7 @@ export default function Page(props) {
       <div
         style={{
           display: "flex",
+          justifyContent: "center",
         }}
       >
         <div>
@@ -134,7 +135,12 @@ export default function Page(props) {
                   {Math.ceil(instancePeerData.length / 10)}
                 </p>
                 <div>
-                  <input type="text" placeholder="search" />
+                  <input type="text" placeholder="search" onChange={(event) => {
+                    const newPeers = instancePeerData.filter((peer) => {
+                      return peer.includes(event.target.value)
+                    })
+                    setShownPeers(newPeers.slice(peerPage, peerPage + 10))
+                  }}/>
                   <button onClick={() => setPeerPage(peerPage + 10)}>
                     Next
                   </button>
@@ -178,7 +184,12 @@ export default function Page(props) {
                   {Math.ceil(instanceBlocksData.length / 10)}
                 </p>
                 <div>
-                  <input type="text" placeholder="search" />
+                  <input type="text" placeholder="search" onChange={(event) => {
+                    const newBlocks = instanceBlocksData.filter((block) => {
+                      return block.domain.includes(event.target.value)
+                    })
+                    setShownBlocks(newBlocks.slice(blockPage, blockPage + 10))
+                  }}/>
                   <button onClick={() => setBlockPage(peerPage + 10)}>
                     Next
                   </button>
