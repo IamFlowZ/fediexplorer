@@ -12,22 +12,26 @@ export default function Page(props) {
 
   console.log(targetInstance);
 
-  const [tempInstance, setTempInstance] = useState('');
+  const [tempInstance, setTempInstance] = useState("");
 
   const [instanceData, setInstanceData] = useState({});
   const [instanceDataCallSuccess, setInstanceDataCallSuccess] = useState(false);
 
   const [instancePeerData, setInstancePeerData] = useState([]);
-  const [instancePeerDataCallSuccess, setInstancePeerDataCallSuccess] = useState(false);
+  const [instancePeerDataCallSuccess, setInstancePeerDataCallSuccess] =
+    useState(false);
 
   const [instanceActivityData, setInstanceActivityData] = useState({});
-  const [instanceActivityDataCallSuccess, setInstanceActivityDataCallSuccess] = useState(false);
+  const [instanceActivityDataCallSuccess, setInstanceActivityDataCallSuccess] =
+    useState(false);
 
   const [instanceRuleData, setInstanceRuleData] = useState([]);
-  const [instanceRuleDataCallSuccess, setInstanceRuleDataCallSuccess] = useState(false);
-  
+  const [instanceRuleDataCallSuccess, setInstanceRuleDataCallSuccess] =
+    useState(false);
+
   const [instanceBlocksData, setInstanceBlocksData] = useState([]);
-  const [instanceBlocksDataCallSuccess, setInstanceBlocksDataCallSuccess] = useState(false);
+  const [instanceBlocksDataCallSuccess, setInstanceBlocksDataCallSuccess] =
+    useState(false);
 
   const [peerPage, setPeerPage] = useState(0);
   const [shownPeers, setShownPeers] = useState([]);
@@ -39,41 +43,41 @@ export default function Page(props) {
     fetch(`https://${targetInstance}/api/v2/instance`)
       .then((res) => res.json())
       .then((json) => {
-        setInstanceData(json)
-        setInstanceDataCallSuccess(true)
+        setInstanceData(json);
+        setInstanceDataCallSuccess(true);
       })
       .catch((err) => {
-        console.error('failed instance call', err);
+        console.error("failed instance call", err);
       });
 
     fetch(`https://${targetInstance}/api/v1/instance/peers`)
       .then((res) => res.json())
       .then((json) => {
-        setInstancePeerData(json)
-        setInstancePeerDataCallSuccess(true)
+        setInstancePeerData(json);
+        setInstancePeerDataCallSuccess(true);
       })
       .catch((err) => {
-        console.error('failed peers call', err);
+        console.error("failed peers call", err);
       });
 
     fetch(`https://${targetInstance}/api/v1/instance/activity`)
       .then((res) => res.json())
       .then((json) => {
-        setInstanceActivityData(json)
-        setInstanceActivityDataCallSuccess(true)
+        setInstanceActivityData(json);
+        setInstanceActivityDataCallSuccess(true);
       })
       .catch((err) => {
-        console.error('failed activity call', err);
+        console.error("failed activity call", err);
       });
 
     fetch(`https://${targetInstance}/api/v1/instance/rules`)
       .then((res) => res.json())
       .then((json) => {
-        setInstanceRuleData(json)
-        setInstanceRuleDataCallSuccess(true)
+        setInstanceRuleData(json);
+        setInstanceRuleDataCallSuccess(true);
       })
       .catch((err) => {
-        console.error('failed rules call', err);
+        console.error("failed rules call", err);
       });
 
     fetch(`https://${targetInstance}/api/v1/instance/domain_blocks`)
@@ -87,14 +91,27 @@ export default function Page(props) {
         return res.json();
       })
       .then((json) => {
-        setInstanceBlocksData(json)
-        setInstanceBlocksDataCallSuccess(true)
+        setInstanceBlocksData(json);
+        setInstanceBlocksDataCallSuccess(true);
       });
 
-    if (instanceDataCallSuccess && instancePeerDataCallSuccess && instanceActivityDataCallSuccess && instanceRuleDataCallSuccess && instanceBlocksDataCallSuccess) {
+    if (
+      instanceDataCallSuccess &&
+      instancePeerDataCallSuccess &&
+      instanceActivityDataCallSuccess &&
+      instanceRuleDataCallSuccess &&
+      instanceBlocksDataCallSuccess
+    ) {
       setLoading(false);
     }
-  }, [instanceActivityDataCallSuccess, instanceBlocksDataCallSuccess, instanceDataCallSuccess, instancePeerDataCallSuccess, instanceRuleDataCallSuccess, targetInstance]);
+  }, [
+    instanceActivityDataCallSuccess,
+    instanceBlocksDataCallSuccess,
+    instanceDataCallSuccess,
+    instancePeerDataCallSuccess,
+    instanceRuleDataCallSuccess,
+    targetInstance,
+  ]);
 
   useEffect(() => {
     if (!instanceData.thumbnail) {
@@ -149,19 +166,21 @@ export default function Page(props) {
               maxWidth: "1300px",
             }}
           >
-            <div style={{
-              display: 'flex',
-              justifyContent: 'center',
-              marginBottom: '1rem',
-            }}>
-              <input 
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginBottom: "1rem",
+              }}
+            >
+              <input
                 type="text"
                 placeholder="Find your instance..."
                 onKeyDown={(event) => {
                   if (event.key !== "Enter") return;
                   const instance = event.target.value;
                   if (instance.includes(".")) {
-                    console.log('here')
+                    console.log("here");
                     const newParams = new URLSearchParams();
                     newParams.set("instance", instance);
                     window.location.search = newParams.toString();
@@ -174,11 +193,11 @@ export default function Page(props) {
                   }
                 }}
               />
-              <button 
+              <button
                 onClick={() => {
                   const instance = tempInstance;
                   if (instance.includes(".")) {
-                    console.log('here2')
+                    console.log("here2");
                     const newParams = new URLSearchParams();
                     newParams.set("instance", instance);
                     window.location.search = newParams.toString();
