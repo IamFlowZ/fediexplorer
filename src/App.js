@@ -81,9 +81,10 @@ export default function Page(props) {
         if (res.status === 404) {
           console.log("no domain blocks");
           return [];
-        } else {
+        } else if (res.status !== 200) {
           throw new Error("failed domain blocks call");
         }
+        return res.json();
       })
       .then((json) => {
         setInstanceBlocksData(json)
