@@ -12,6 +12,8 @@ export default function Page(props) {
 
   console.log(targetInstance);
 
+  const [tempInstance, setTempInstance] = useState('');
+
   const [instanceData, setInstanceData] = useState({});
   const [instancePeerData, setInstancePeerData] = useState([]);
   const [instanceActivityData, setInstanceActivityData] = useState({});
@@ -88,7 +90,7 @@ export default function Page(props) {
           paddingBottom: "0.5rem",
         }}
       >
-        fediexplorer
+        <i>fediexplorer</i>
       </nav>
       <main
         style={{
@@ -110,6 +112,41 @@ export default function Page(props) {
               maxWidth: "1300px",
             }}
           >
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              marginBottom: '1rem',
+            }}>
+              <input 
+                type="text"
+                placeholder="Find your instance..."
+                onKeyDown={(event) => {
+                  if (event.key !== "Enter") return;
+                  const instance = event.target.value;
+                  if (instance.includes(".")) {
+                    console.log('here')
+                    window.location.href = `/?instance=${instance}`;
+                  }
+                }}
+                onChange={(event) => {
+                  const instance = event.target.value;
+                  if (instance.includes(".")) {
+                    setTempInstance(instance);
+                  }
+                }}
+              />
+              <button 
+                onClick={() => {
+                  const instance = tempInstance;
+                  if (instance.includes(".")) {
+                    console.log('here2')
+                    window.location.href = `/?instance=${instance}`;
+                  }
+                }}
+              >
+                Search
+              </button>
+            </div>
             {
               // feel like i shouldn't have to do this........
               instanceData.thumbnail && (
