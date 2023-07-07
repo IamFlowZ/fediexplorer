@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/fediexplorer/static/css/main.4680b9dc.css",
-    "main.js": "/fediexplorer/static/js/main.28fb9406.js",
+    "main.js": "/fediexplorer/static/js/main.9b1d5fd6.js",
     "static/js/787.1b39ee54.chunk.js": "/fediexplorer/static/js/787.1b39ee54.chunk.js",
     "index.html": "/fediexplorer/index.html",
     "main.4680b9dc.css.map": "/fediexplorer/static/css/main.4680b9dc.css.map",
-    "main.28fb9406.js.map": "/fediexplorer/static/js/main.28fb9406.js.map",
+    "main.9b1d5fd6.js.map": "/fediexplorer/static/js/main.9b1d5fd6.js.map",
     "787.1b39ee54.chunk.js.map": "/fediexplorer/static/js/787.1b39ee54.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.4680b9dc.css",
-    "static/js/main.28fb9406.js"
+    "static/js/main.9b1d5fd6.js"
   ]
 }
