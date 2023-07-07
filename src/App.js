@@ -15,10 +15,19 @@ export default function Page(props) {
   const [tempInstance, setTempInstance] = useState('');
 
   const [instanceData, setInstanceData] = useState({});
+  const [instanceDataCallSuccess, setInstanceDataCallSuccess] = useState(false);
+
   const [instancePeerData, setInstancePeerData] = useState([]);
+  const [instancePeerDataCallSuccess, setInstancePeerDataCallSuccess] = useState(false);
+
   const [instanceActivityData, setInstanceActivityData] = useState({});
+  const [instanceActivityDataCallSuccess, setInstanceActivityDataCallSuccess] = useState(false);
+
   const [instanceRuleData, setInstanceRuleData] = useState([]);
+  const [instanceRuleDataCallSuccess, setInstanceRuleDataCallSuccess] = useState(false);
+  
   const [instanceBlocksData, setInstanceBlocksData] = useState([]);
+  const [instanceBlocksDataCallSuccess, setInstanceBlocksDataCallSuccess] = useState(false);
 
   const [peerPage, setPeerPage] = useState(0);
   const [shownPeers, setShownPeers] = useState([]);
@@ -29,21 +38,43 @@ export default function Page(props) {
   useEffect(() => {
     fetch(`https://${targetInstance}/api/v2/instance`)
       .then((res) => res.json())
-      .then((json) => setInstanceData(json));
+      .then((json) => {
+        setInstanceData(json)
+        setInstanceDataCallSuccess(true)
+      })
+      .catch((err) => {
+        console.error('failed instance call', err);
+      });
 
     fetch(`https://${targetInstance}/api/v1/instance/peers`)
       .then((res) => res.json())
-      .then((json) => setInstancePeerData(json));
-
-    // setInstancePeerData(['hachyderm.io'])
+      .then((json) => {
+        setInstancePeerData(json)
+        setInstancePeerDataCallSuccess(true)
+      })
+      .catch((err) => {
+        console.error('failed peers call', err);
+      });
 
     fetch(`https://${targetInstance}/api/v1/instance/activity`)
       .then((res) => res.json())
-      .then((json) => setInstanceActivityData(json));
+      .then((json) => {
+        setInstanceActivityData(json)
+        setInstanceActivityDataCallSuccess(true)
+      })
+      .catch((err) => {
+        console.error('failed activity call', err);
+      });
 
     fetch(`https://${targetInstance}/api/v1/instance/rules`)
       .then((res) => res.json())
-      .then((json) => setInstanceRuleData(json));
+      .then((json) => {
+        setInstanceRuleData(json)
+        setInstanceRuleDataCallSuccess(true)
+      })
+      .catch((err) => {
+        console.error('failed rules call', err);
+      });
 
     fetch(`https://${targetInstance}/api/v1/instance/domain_blocks`)
       .then((res) => {
@@ -51,13 +82,18 @@ export default function Page(props) {
           console.log("no domain blocks");
           return [];
         } else {
-          return res.json();
+          throw new Error("failed domain blocks call");
         }
       })
-      .then((json) => setInstanceBlocksData(json));
+      .then((json) => {
+        setInstanceBlocksData(json)
+        setInstanceBlocksDataCallSuccess(true)
+      });
 
-    setLoading(false);
-  }, [targetInstance]);
+    if (instanceDataCallSuccess && instancePeerDataCallSuccess && instanceActivityDataCallSuccess && instanceRuleDataCallSuccess && instanceBlocksDataCallSuccess) {
+      setLoading(false);
+    }
+  }, [instanceActivityDataCallSuccess, instanceBlocksDataCallSuccess, instanceDataCallSuccess, instancePeerDataCallSuccess, instanceRuleDataCallSuccess, targetInstance]);
 
   useEffect(() => {
     if (!instanceData.thumbnail) {
@@ -125,7 +161,9 @@ export default function Page(props) {
                   const instance = event.target.value;
                   if (instance.includes(".")) {
                     console.log('here')
-                    window.location.href = `/?instance=${instance}`;
+                    const newParams = new URLSearchParams();
+                    newParams.set("instance", instance);
+                    window.location.search = newParams.toString();
                   }
                 }}
                 onChange={(event) => {
@@ -140,7 +178,9 @@ export default function Page(props) {
                   const instance = tempInstance;
                   if (instance.includes(".")) {
                     console.log('here2')
-                    window.location.href = `/?instance=${instance}`;
+                    const newParams = new URLSearchParams();
+                    newParams.set("instance", instance);
+                    window.location.search = newParams.toString();
                   }
                 }}
               >
