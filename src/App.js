@@ -222,8 +222,23 @@ export default function Page(props) {
                 />
               )
             }
-            <h2>{instanceData.title}</h2>
-            <p>{instanceData.description}</p>
+            <div style={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}>
+              <div>
+                <h2>{instanceData.title}</h2>
+                <p>{instanceData.description}</p>
+                <p>Users this month: {instanceData.usage.users.active_month}</p>
+                <p>Accepting registrations: {instanceData.registrations.enabled ? <>✅</> : <>❌</>}{instanceData.registrations.approval_required ? <>(with approval)</> : null}</p>
+              </div>
+              <div>
+                <h2>Contact</h2>
+                <p>Admin: {instanceData.contact.account.url}</p>
+                <p>Admin email: {instanceData.contact.email}</p>
+                <p>{instanceData.contact.account.note.replace(/(<([^>]+)>)/gi, "")}</p>
+              </div>
+            </div>
             <hr
               style={{
                 marginTop: "1rem",
@@ -359,7 +374,6 @@ export default function Page(props) {
                     display: "flex",
                   }}
                 >
-                  {/* <p>{instanceBlocksData.length}</p> */}
                   {/* todo: disable next once on last page */}
                   <input
                     style={{
