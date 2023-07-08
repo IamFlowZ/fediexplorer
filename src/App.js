@@ -332,6 +332,9 @@ export default function Page(props) {
                 <ul>
                   {shownPeers.map((peer, i) => (
                     <li
+                      style={{
+                        cursor: "pointer",
+                      }}
                       onClick={() => {
                         const newParams = new URLSearchParams();
                         newParams.set("instance", peer);
@@ -413,6 +416,9 @@ export default function Page(props) {
                 <ul>
                   {shownBlocks.map((block, i) => (
                     <li
+                      style={{
+                        cursor: "pointer",
+                      }}
                       onClick={() => {
                         const newParams = new URLSearchParams();
                         newParams.set("instance", block.domain);
