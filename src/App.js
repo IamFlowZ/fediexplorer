@@ -222,10 +222,12 @@ export default function Page(props) {
                 />
               )
             }
-            <div style={{
-              display: "flex",
-              justifyContent: "space-between",
-            }}>
+            <div 
+              id="instance-info"
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+              }}>
               <div>
                 <h2>{instanceData.title}</h2>
                 <p>{instanceData.description}</p>

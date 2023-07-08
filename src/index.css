@@ -106,4 +106,8 @@ code {
   .page-ctrl-group > input {
     flex: 0 0 100%;
   }
+
+  #instance-info {
+    flex-direction: column;
+  }
 }
