@@ -4,33 +4,45 @@ export default function Page(props) {
   const searchParams = new URLSearchParams(document.location.search);
 
   const [loading, setLoading] = useState(true);
-  console.log(searchParams);
+  // console.log(searchParams);
 
   const targetInstance = searchParams.get("instance")
     ? searchParams.get("instance")
     : "mastodon.social";
 
-  console.log(targetInstance);
+  // console.log(targetInstance);
 
   const [tempInstance, setTempInstance] = useState("");
 
+  // const [failedToLoadInstance, setFailedToLoadInstance] = useState(false);
+  // const [failedInstance, setFailedInstance] = useState("");
+
   const [instanceData, setInstanceData] = useState({});
   const [instanceDataCallSuccess, setInstanceDataCallSuccess] = useState(false);
+  const [instanceDataCallFailure, setInstanceDataCallFailure] = useState(false);
 
   const [instancePeerData, setInstancePeerData] = useState([]);
   const [instancePeerDataCallSuccess, setInstancePeerDataCallSuccess] =
+    useState(false);
+  const [instancePeerDataCallFailure, setInstancePeerDataCallFailure] =
     useState(false);
 
   const [instanceActivityData, setInstanceActivityData] = useState({});
   const [instanceActivityDataCallSuccess, setInstanceActivityDataCallSuccess] =
     useState(false);
+  const [instanceActivityDataCallFailure, setInstanceActivityDataCallFailure] =
+    useState(false);
 
   const [instanceRuleData, setInstanceRuleData] = useState([]);
   const [instanceRuleDataCallSuccess, setInstanceRuleDataCallSuccess] =
     useState(false);
+  const [instanceRuleDataCallFailure, setInstanceRuleDataCallFailure] =
+    useState(false);
 
   const [instanceBlocksData, setInstanceBlocksData] = useState([]);
   const [instanceBlocksDataCallSuccess, setInstanceBlocksDataCallSuccess] =
+    useState(false);
+  const [instanceBlocksDataCallFailure, setInstanceBlocksDataCallFailure] =
     useState(false);
 
   const [peerPage, setPeerPage] = useState(0);
@@ -48,6 +60,7 @@ export default function Page(props) {
       })
       .catch((err) => {
         console.error("failed instance call", err);
+        setInstanceDataCallFailure(true);
       });
 
     fetch(`https://${targetInstance}/api/v1/instance/peers`)
@@ -58,6 +71,7 @@ export default function Page(props) {
       })
       .catch((err) => {
         console.error("failed peers call", err);
+        setInstancePeerDataCallFailure(true);
       });
 
     fetch(`https://${targetInstance}/api/v1/instance/activity`)
@@ -68,6 +82,7 @@ export default function Page(props) {
       })
       .catch((err) => {
         console.error("failed activity call", err);
+        setInstanceActivityDataCallFailure(true);
       });
 
     fetch(`https://${targetInstance}/api/v1/instance/rules`)
@@ -78,6 +93,7 @@ export default function Page(props) {
       })
       .catch((err) => {
         console.error("failed rules call", err);
+        setInstanceRuleDataCallFailure(true);
       });
 
     fetch(`https://${targetInstance}/api/v1/instance/domain_blocks`)
@@ -93,6 +109,10 @@ export default function Page(props) {
       .then((json) => {
         setInstanceBlocksData(json);
         setInstanceBlocksDataCallSuccess(true);
+      })
+      .catch((err) => {
+        console.error("failed domain blocks call", err);
+        setInstanceBlocksDataCallFailure(true);
       });
 
     if (
@@ -103,22 +123,41 @@ export default function Page(props) {
       instanceBlocksDataCallSuccess
     ) {
       setLoading(false);
+      const failedInstance = localStorage.getItem("failedInstance");
+      if (failedInstance) {
+        console.log("here");
+        localStorage.removeItem("failedInstance");
+        alert(
+          `${failedInstance} failed to load. You've been redirected back to the previous instance.`
+        );
+      }
+    } else if (
+      instanceDataCallFailure ||
+      instancePeerDataCallFailure ||
+      instanceActivityDataCallFailure ||
+      instanceRuleDataCallFailure ||
+      instanceBlocksDataCallFailure
+    ) {
+      localStorage.setItem("failedInstance", targetInstance);
+      const newParams = new URLSearchParams();
+      newParams.set("instance", localStorage.getItem("prevInstance"));
+      window.location.search = newParams.toString();
     }
   }, [
+    instanceActivityDataCallFailure,
     instanceActivityDataCallSuccess,
+    instanceBlocksDataCallFailure,
     instanceBlocksDataCallSuccess,
+    instanceDataCallFailure,
     instanceDataCallSuccess,
+    instancePeerDataCallFailure,
     instancePeerDataCallSuccess,
+    instanceRuleDataCallFailure,
     instanceRuleDataCallSuccess,
     targetInstance,
   ]);
 
   useEffect(() => {
-    if (!instanceData.thumbnail) {
-      console.log("wtf", instanceData);
-    } else {
-      fetch(instanceData.thumbnail.url);
-    }
     setShownPeers(instancePeerData.slice(peerPage, peerPage + 10));
     setShownBlocks(instanceBlocksData.slice(blockPage, blockPage + 10));
   }, [instanceData, instancePeerData, peerPage, instanceBlocksData, blockPage]);
@@ -222,23 +261,35 @@ export default function Page(props) {
                 />
               )
             }
-            <div 
+            <div
               id="instance-info"
               style={{
                 display: "flex",
                 justifyContent: "space-between",
-              }}>
+              }}
+            >
               <div>
                 <h2>{instanceData.title}</h2>
                 <p>{instanceData.description}</p>
                 <p>Users this month: {instanceData.usage.users.active_month}</p>
-                <p>Accepting registrations: {instanceData.registrations.enabled ? <>✅</> : <>❌</>}{instanceData.registrations.approval_required ? <>(with approval)</> : null}</p>
+                <p>
+                  Accepting registrations:{" "}
+                  {instanceData.registrations.enabled ? <>✅</> : <>❌</>}
+                  {instanceData.registrations.approval_required ? (
+                    <>(with approval)</>
+                  ) : null}
+                </p>
               </div>
               <div>
                 <h2>Contact</h2>
                 <p>Admin: {instanceData.contact.account.url}</p>
                 <p>Admin email: {instanceData.contact.email}</p>
-                <p>{instanceData.contact.account.note.replace(/(<([^>]+)>)/gi, "")}</p>
+                <p>
+                  {instanceData.contact.account.note.replace(
+                    /(<([^>]+)>)/gi,
+                    ""
+                  )}
+                </p>
               </div>
             </div>
             <hr
@@ -340,6 +391,7 @@ export default function Page(props) {
                       onClick={() => {
                         const newParams = new URLSearchParams();
                         newParams.set("instance", peer);
+                        localStorage.setItem("prevInstance", targetInstance);
                         window.location.search = newParams.toString();
                       }}
                       key={i}
@@ -424,6 +476,7 @@ export default function Page(props) {
                       onClick={() => {
                         const newParams = new URLSearchParams();
                         newParams.set("instance", block.domain);
+                        localStorage.setItem("prevInstance", targetInstance);
                         window.location.search = newParams.toString();
                       }}
                       key={i}
