@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { ReactComponent as Fediexplorer } from "./fediexplorer.svg";
 
 export default function Page(props) {
   const searchParams = new URLSearchParams(document.location.search);
@@ -183,7 +184,8 @@ export default function Page(props) {
           paddingBottom: "0.5rem",
         }}
       >
-        <i>fediexplorer</i>
+        <Fediexplorer width="5rem" height="5rem"/>
+        {/* <i>fediexplorer</i> */}
       </nav>
       <main
         style={{
