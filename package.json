@@ -1,8 +1,12 @@
 {
   "name": "fediexplorer",
   "homepage": "https://iamflowz.github.io/fediexplorer",
-  "version": "0.1.0",
-  "private": true,
+  "license": "Apache-2.0",
+  "people": {
+    "author": "Dakota Lewallen <hello@dakotalewallen.me> (https://dakotalewallen.me/)"
+  },
+  "version": "1.0.0",
+  "private": false,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
