@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/fediexplorer/static/css/main.7d2f59b4.css",
-    "main.js": "/fediexplorer/static/js/main.e739d0e7.js",
+    "main.css": "/fediexplorer/static/css/main.27c9b097.css",
+    "main.js": "/fediexplorer/static/js/main.715a8bb4.js",
     "static/js/787.1b39ee54.chunk.js": "/fediexplorer/static/js/787.1b39ee54.chunk.js",
     "static/media/fediexplorer.svg": "/fediexplorer/static/media/fediexplorer.c1eeec801e3beed96692cb1738703555.svg",
     "index.html": "/fediexplorer/index.html",
-    "main.7d2f59b4.css.map": "/fediexplorer/static/css/main.7d2f59b4.css.map",
-    "main.e739d0e7.js.map": "/fediexplorer/static/js/main.e739d0e7.js.map",
+    "main.27c9b097.css.map": "/fediexplorer/static/css/main.27c9b097.css.map",
+    "main.715a8bb4.js.map": "/fediexplorer/static/js/main.715a8bb4.js.map",
     "787.1b39ee54.chunk.js.map": "/fediexplorer/static/js/787.1b39ee54.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.7d2f59b4.css",
-    "static/js/main.e739d0e7.js"
+    "static/css/main.27c9b097.css",
+    "static/js/main.715a8bb4.js"
   ]
 }
