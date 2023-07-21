@@ -235,6 +235,9 @@ export default function Page(props) {
                 }}
               />
               <button
+                style={{
+                  padding: "0.45rem"
+                }}
                 onClick={() => {
                   const instance = tempInstance;
                   if (instance.includes(".")) {
@@ -245,7 +248,7 @@ export default function Page(props) {
                   }
                 }}
               >
-                Search
+                🔍
               </button>
             </div>
             {
@@ -313,7 +316,7 @@ export default function Page(props) {
                   flexGrow: 1,
                 }}
               >
-                <h2>Rules</h2>
+                <h2>Rules ⚖️</h2>
                 <ul>
                   {instanceRuleData &&
                     instanceRuleData.map((rule) => (

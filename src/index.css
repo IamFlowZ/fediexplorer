@@ -77,13 +77,28 @@ code {
 }
 
 :root {
-  --foreground: #f5f5f5;
-  --background: #10479e;
+  --foreground: #393f4f;
+  --background: #191b22;
 }
 
 #root {
   background-color: var(--background);
   /* padding: 2rem; */
+}
+
+input {
+  background: #282c37;
+  color: white;
+  border: 0;
+  border-radius: 0.25rem;
+}
+
+button {
+  border-radius: 0.25rem;
+  background-color: #595aff;
+  border: 0px;
+  color: white;
+  padding: 0.35rem;
 }
 
 @media screen and (max-width: 810px) {
